@@ -1,10 +1,9 @@
-import {Controller, Inject, Post, Body, UseGuards, Request} from "@nestjs/common";
+import {Controller, Inject, Post, Body, UseGuards, Request, Req} from "@nestjs/common";
 import {AIB, AuthInteractorBoundary} from "../../../usercase/boundaries/AuthInteractorBoundary";
 import {AuthRequestModel} from "../../../usercase/domains/AuthRequestModel";
 import {AuthResponseModel} from "../../../usercase/domains/AuthResponseModel";
-import {AuthGuard} from "@nestjs/passport";
-import {AuthTokenGuard} from "../../security/guards/AuthTokenGuard";
 import {Public} from "../../security/PublicEndPoint";
+import {RefreshTokenGuard} from "../../security/guards/RefreshTokenGuard";
 
 @Controller("auth")
 export class AuthController{
@@ -25,5 +24,12 @@ export class AuthController{
   @Post("logout")
   async logout(@Body() authRequestModel: AuthRequestModel) {
     return authRequestModel;
+  }
+
+  @Public()
+  @UseGuards(RefreshTokenGuard)
+  @Post("refresh")
+  async refresh(@Request() req): Promise<AuthResponseModel> {
+    return this.authInteractorBoundary.refresh(req.user.sub,req.user.password);
   }
 }

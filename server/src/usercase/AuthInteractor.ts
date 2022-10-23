@@ -18,10 +18,26 @@ export class AuthInteractor implements AuthInteractorBoundary {
   ) {
   }
 
+  async refresh(email: string, password: string): Promise<AuthResponseModel> {
+    const tokens = await this.getTokens({
+      password: password,
+      email: email,
+      msg: "",
+      code: 0
+    });
+    return Promise.resolve({
+      authToken: tokens.authToken,
+      refreshToken: tokens.refreshToken
+    });
+  }
+
   async login(authRequestModel: AuthRequestModel): Promise<AuthResponseModel> {
+
+
+
     const tokens = await this.getTokens(authRequestModel);
     return Promise.resolve({
-      authToken : tokens.authToken,
+      authToken: tokens.authToken,
       refreshToken: tokens.refreshToken
     });
   }
@@ -31,7 +47,7 @@ export class AuthInteractor implements AuthInteractorBoundary {
     return Promise.resolve(userEntity ? userEntity : null);
   }
 
-  async getTokens(authRequestModel : AuthRequestModel): Promise<{ authToken: string, refreshToken: string }> {
+  async getTokens(authRequestModel: AuthRequestModel): Promise<{ authToken: string, refreshToken: string }> {
     const jwtPayload = {
       sub: authRequestModel.email,
       email: authRequestModel.password,
@@ -40,7 +56,7 @@ export class AuthInteractor implements AuthInteractorBoundary {
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get<string>('AT_SECRET'),
-        expiresIn: '15m',
+        expiresIn: '1m',
       }),
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get<string>('RT_SECRET'),

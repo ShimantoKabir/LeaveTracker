@@ -5,10 +5,12 @@ import {AuthModule} from "./adapter/http/auth/AuthModule";
 import {ConfigModule} from "@nestjs/config";
 import {APP_GUARD} from "@nestjs/core";
 import {AuthTokenGuard} from "./adapter/security/guards/AuthTokenGuard";
+import {UserModule} from "./adapter/http/user/UserModule";
 
 @Module({
   imports: [
     AuthModule,
+    UserModule,
     TypeOrmModule.forRoot({
       type: "sqlite",
       database: "db.sqlite",

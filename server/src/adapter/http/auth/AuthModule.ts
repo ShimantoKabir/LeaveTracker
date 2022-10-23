@@ -11,6 +11,7 @@ import {AuthInteractor} from "../../../usercase/AuthInteractor";
 import {PassportModule} from "@nestjs/passport";
 import {AuthTokenStrategy} from "../../security/strategies/AuthTokenStrategy";
 import {JwtModule} from "@nestjs/jwt";
+import {RefreshTokenStrategy} from "../../security/strategies/RefreshTokenStrategy";
 
 @Module({
   imports : [
@@ -32,7 +33,8 @@ import {JwtModule} from "@nestjs/jwt";
       provide: US,
       useClass: UserServiceImpl
     },
-    AuthTokenStrategy
+    AuthTokenStrategy,
+    RefreshTokenStrategy
   ],
 })
 export class AuthModule{}
