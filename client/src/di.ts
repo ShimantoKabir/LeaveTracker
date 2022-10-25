@@ -1,7 +1,11 @@
 import { Container } from "inversify";
-import {LoginComponentModel, LoginComponentModelImpl} from "./components/login/LoginComponentModel";
+import {ACM, AlertComponentModel} from "./components/alert/model/AlertComponentModel";
+import {AlertComponentModelImpl} from "./components/alert/model/AlertComponentModelImpl";
+import {LCM, LoginComponentModel} from "./components/login/model/LoginComponentModel";
+import {LoginComponentModelImpl} from "./components/login/model/LoginComponentModelImpl";
 
 const container = new Container();
-container.bind<LoginComponentModel>("loginComponentModel").to(LoginComponentModelImpl);
+container.bind<LoginComponentModel>(LCM).to(LoginComponentModelImpl);
+container.bind<AlertComponentModel>(ACM).to(AlertComponentModelImpl);
 
 export const DiContainer = container;

@@ -1,15 +1,15 @@
 import "./LoginStyle.css"
-import React, {ChangeEvent, Component, FormEvent, ReactNode} from "react";
+import {ChangeEvent, Component, FormEvent, ReactNode} from "react";
 import { observer } from "mobx-react"
-import {LoginComponentModel} from "./LoginComponentModel";
 import {resolve} from "inversify-react";
 import {Button, Form} from "react-bootstrap";
 import {Navigate} from "react-router-dom";
+import {LCM, LoginComponentModel} from "./model/LoginComponentModel";
 
 @observer
 export class LoginComponent extends Component{
 
-	@resolve("loginComponentModel")
+	@resolve(LCM)
 	private readonly componentModel!: LoginComponentModel;
 
 	render() : ReactNode{

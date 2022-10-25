@@ -8,6 +8,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {ProtectedRoutes} from "./security/ProtectedRoutes";
 import {UnProtectedRoutes} from "./security/UnProtectedRoutes";
 import {HomeComponent} from "./components/home/HomeComponent";
+import {AlertComponent} from "./components/alert/AlertComponent";
 
 export class App extends React.Component {
 
@@ -15,6 +16,7 @@ export class App extends React.Component {
 		return (
 			<Provider container={DiContainer}>
 				<BrowserRouter>
+					<AlertComponent/>
 					<Routes>
 						<Route element={<ProtectedRoutes/>}>
 							<Route path="/home" element={<HomeComponent/>}/>

@@ -1,19 +1,11 @@
-import {makeObservable, observable} from "mobx"
-import {ChangeEvent, FormEvent} from "react";
 import {injectable} from "inversify";
-import {Credential} from "../../common/Credential";
-import {PublicClientApplication} from "@azure/msal-browser";
+import {makeObservable, observable} from "mobx";
+import {ChangeEvent, FormEvent} from "react";
 import {Cookies} from "react-cookie";
-import AppConstants from "../../common/AppConstants";
-
-export interface LoginComponentModel {
-	email: string;
-	onInputChange(e: ChangeEvent<HTMLInputElement>): void,
-	loginByMicrosoft(): void,
-	isFormValid: boolean;
-	isLoggedIn: boolean;
-	onLogin(e: FormEvent<HTMLFormElement>) : void;
-}
+import {PublicClientApplication} from "@azure/msal-browser";
+import {LoginComponentModel} from "./LoginComponentModel";
+import {Credential} from "../../../common/Credential";
+import AppConstants from "../../../common/AppConstants";
 
 @injectable()
 export class LoginComponentModelImpl implements LoginComponentModel {
@@ -42,8 +34,8 @@ export class LoginComponentModelImpl implements LoginComponentModel {
 				path: '/'
 			}
 		);
-		this.isLoggedIn = true;
-  }
+		// this.isLoggedIn = true;
+	}
 
 	async loginByMicrosoft(): Promise<void> {
 
