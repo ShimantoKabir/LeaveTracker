@@ -1,6 +1,6 @@
+import './App.css';
 import "reflect-metadata";
 import React from 'react';
-import './App.css';
 import {LoginComponent} from "./components/login/LoginComponent";
 import {Provider} from "inversify-react";
 import {DiContainer} from "./di";

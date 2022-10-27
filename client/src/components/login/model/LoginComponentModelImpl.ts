@@ -1,5 +1,5 @@
 import {injectable} from "inversify";
-import {makeObservable, observable} from "mobx";
+import {makeObservable, observable, action} from "mobx";
 import {ChangeEvent, FormEvent} from "react";
 import {Cookies} from "react-cookie";
 import {PublicClientApplication} from "@azure/msal-browser";
@@ -18,7 +18,8 @@ export class LoginComponentModelImpl implements LoginComponentModel {
 		makeObservable(this, {
 			email: observable,
 			isFormValid: observable,
-			isLoggedIn: observable
+			isLoggedIn: observable,
+			onInputChange: action
 		});
 	}
 
