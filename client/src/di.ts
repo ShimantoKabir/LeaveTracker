@@ -5,7 +5,7 @@ import {LCM, LoginComponentModel} from "./components/login/model/LoginComponentM
 import {LoginComponentModelImpl} from "./components/login/model/LoginComponentModelImpl";
 
 const container = new Container();
-container.bind<LoginComponentModel>(LCM).to(LoginComponentModelImpl);
-container.bind<AlertComponentModel>(ACM).to(AlertComponentModelImpl);
+container.bind<LoginComponentModel>(LCM).to(LoginComponentModelImpl).inSingletonScope();
+container.bind<AlertComponentModel>(ACM).to(AlertComponentModelImpl).inSingletonScope();
 
 export const DiContainer = container;

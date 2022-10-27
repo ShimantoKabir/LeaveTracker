@@ -4,6 +4,9 @@ import {injectable} from "inversify";
 
 @injectable()
 export class AlertComponentModelImpl implements AlertComponentModel{
+
+
+
 	isModalOpen: boolean = false;
 	constructor() {
 		makeObservable(this, {

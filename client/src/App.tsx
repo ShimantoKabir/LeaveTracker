@@ -11,7 +11,6 @@ import {HomeComponent} from "./components/home/HomeComponent";
 import {AlertComponent} from "./components/alert/AlertComponent";
 
 export class App extends React.Component {
-
 	render(): React.ReactNode {
 		return (
 			<Provider container={DiContainer}>

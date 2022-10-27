@@ -5,12 +5,22 @@ import {resolve} from "inversify-react";
 import {Button, Form} from "react-bootstrap";
 import {Navigate} from "react-router-dom";
 import {LCM, LoginComponentModel} from "./model/LoginComponentModel";
+import {ACM, AlertComponentModel} from "../alert/model/AlertComponentModel";
 
 @observer
 export class LoginComponent extends Component{
 
 	@resolve(LCM)
 	private readonly componentModel!: LoginComponentModel;
+
+	@resolve(ACM)
+	private readonly a!: AlertComponentModel;
+
+	login = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		e.stopPropagation();
+		this.a.changeModalState(true);
+	}
 
 	render() : ReactNode{
 
@@ -25,7 +35,7 @@ export class LoginComponent extends Component{
 					<Form
 						noValidate
 						validated={this.componentModel.isFormValid}
-						onSubmit={(e: FormEvent<HTMLFormElement>)=>this.componentModel.onLogin(e)}
+						onSubmit={(e: FormEvent<HTMLFormElement>)=>this.login(e)}
 					>
 						<Form.Group className="mb-3" controlId="formBasicEmail">
 							<Form.Label>Email address</Form.Label>

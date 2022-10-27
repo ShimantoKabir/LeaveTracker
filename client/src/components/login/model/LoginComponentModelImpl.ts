@@ -23,8 +23,6 @@ export class LoginComponentModelImpl implements LoginComponentModel {
 	}
 
 	onLogin(e: FormEvent<HTMLFormElement>): void {
-		e.preventDefault();
-		e.stopPropagation();
 		this.isFormValid = e.currentTarget.checkValidity();
 		let cookies = new Cookies();
 		cookies.set(
@@ -34,7 +32,7 @@ export class LoginComponentModelImpl implements LoginComponentModel {
 				path: '/'
 			}
 		);
-		// this.isLoggedIn = true;
+		this.isLoggedIn = true;
 	}
 
 	async loginByMicrosoft(): Promise<void> {
