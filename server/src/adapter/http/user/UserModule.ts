@@ -8,10 +8,14 @@ import {UP} from "../../../usercase/presenters/UserPresenter";
 import {UserResponseModel} from "../../../usercase/domains/UserResponseModel";
 import {US} from "../../data/services/UserService";
 import UserServiceImpl from "../../data/services/implementations/UserServiceImpl";
+import {MAS} from "../../microsoft/MicrosoftApiService";
+import {MicrosoftApiServiceImpl} from "../../microsoft/implementations/MicrosoftApiServiceImpl";
+import {HttpModule} from "@nestjs/axios";
 
 @Module({
   imports : [
-    TypeOrmModule.forFeature([UserEntity])
+    TypeOrmModule.forFeature([UserEntity]),
+    HttpModule
   ],
   controllers: [UserController],
   providers: [
@@ -26,6 +30,10 @@ import UserServiceImpl from "../../data/services/implementations/UserServiceImpl
     {
       provide: US,
       useClass: UserServiceImpl
+    },
+    {
+      provide: MAS,
+      useClass: MicrosoftApiServiceImpl
     }
   ],
 })

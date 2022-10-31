@@ -14,6 +14,7 @@ export enum IOMsg{
   JWT_ERROR = "JWT token missing!",
   UPDATE_OK = "Update successful!",
   NOT_FOUND = "Not found!",
+  NOT_ORG_USER = "Your email not belongs to this organization!",
   NA = "N/A",
   NO_DATA_API = "No data found to populate on spread sheet!",
   NO_SITE = "No site found to populate data on spread sheet!",

@@ -1,5 +1,5 @@
 import {Component} from "react";
-import {LogoutComponent} from "../Logout/LogoutComponent";
+import {LogoutComponent} from "../logout/LogoutComponent";
 
 export class HomeComponent extends Component{
 

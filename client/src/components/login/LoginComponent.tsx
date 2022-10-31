@@ -1,11 +1,13 @@
-import "./LoginStyle.css"
+import "./LoginStyle.css";
 import {ChangeEvent, Component, FormEvent, ReactNode} from "react";
-import { observer } from "mobx-react"
+import { observer } from "mobx-react";
 import {resolve} from "inversify-react";
 import {Button, Form} from "react-bootstrap";
-import {Navigate} from "react-router-dom";
+import {Link, Navigate} from "react-router-dom";
 import {LCM, LoginComponentModel} from "./model/LoginComponentModel";
 import {ACM, AlertComponentModel} from "../alert/model/AlertComponentModel";
+import {IOCode} from "../../common/IOCode";
+import {IOMsg} from "../../common/IOMsg";
 
 @observer
 export class LoginComponent extends Component{
@@ -14,12 +16,18 @@ export class LoginComponent extends Component{
 	private readonly componentModel!: LoginComponentModel;
 
 	@resolve(ACM)
-	private readonly a!: AlertComponentModel;
+	private readonly alert!: AlertComponentModel;
 
 	login = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		e.stopPropagation();
-		this.a.changeModalState(true);
+		this.alert.changeModalState({
+			code : IOCode.LOADING,
+			status: true,
+			title: IOMsg.LOADING_HEAD,
+			body: IOMsg.LOADING_MSG
+		});
+		this.componentModel.onLogin(e);
 	}
 
 	render() : ReactNode{
@@ -66,6 +74,9 @@ export class LoginComponent extends Component{
 					>
 						Login with Microsoft
 					</Button>
+					<div className="divider pt-4 text-center" >
+						<p>Don't have account, please <Link to={"/registration"}>SingUp</Link></p>
+					</div>
 				</div>
 			</main>
 		)

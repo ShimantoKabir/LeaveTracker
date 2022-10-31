@@ -2,10 +2,10 @@ import {AuthInteractorBoundary} from "./boundaries/AuthInteractorBoundary";
 import {Inject, Injectable} from "@nestjs/common";
 import {AuthRequestModel} from "./domains/AuthRequestModel";
 import {AuthResponseModel} from "./domains/AuthResponseModel";
-import {UserEntity} from "../adapter/data/entities/UserEntity";
 import {US, UserService} from "../adapter/data/services/UserService";
 import {JwtService} from "@nestjs/jwt";
 import {ConfigService} from "@nestjs/config";
+import {AP, AuthPresenter} from "./presenters/AuthPresenter";
 
 @Injectable()
 export class AuthInteractor implements AuthInteractorBoundary {
@@ -13,6 +13,8 @@ export class AuthInteractor implements AuthInteractorBoundary {
   constructor(
     @Inject(US)
     private readonly userService: UserService,
+    @Inject(AP)
+    private readonly authPresenter: AuthPresenter,
     private jwtService: JwtService,
     private config: ConfigService
   ) {
@@ -25,26 +27,12 @@ export class AuthInteractor implements AuthInteractorBoundary {
       msg: "",
       code: 0
     });
-    return Promise.resolve({
-      authToken: tokens.authToken,
-      refreshToken: tokens.refreshToken
-    });
+    return this.authPresenter.buildLoginOrRefreshResponse(tokens.authToken,tokens.refreshToken);
   }
 
   async login(authRequestModel: AuthRequestModel): Promise<AuthResponseModel> {
-
-
-
     const tokens = await this.getTokens(authRequestModel);
-    return Promise.resolve({
-      authToken: tokens.authToken,
-      refreshToken: tokens.refreshToken
-    });
-  }
-
-  isUserValid(authRequestModel: AuthRequestModel): Promise<UserEntity> | null {
-    const userEntity = this.userService.getUserByEmail(authRequestModel.email);
-    return Promise.resolve(userEntity ? userEntity : null);
+    return this.authPresenter.buildLoginOrRefreshResponse(tokens.authToken,tokens.refreshToken);
   }
 
   async getTokens(authRequestModel: AuthRequestModel): Promise<{ authToken: string, refreshToken: string }> {

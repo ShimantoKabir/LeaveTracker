@@ -9,6 +9,7 @@ import {IOCode} from "../common/IOCode";
 import AppConstants from "../common/AppConstants";
 import * as bcrypt from "bcrypt";
 import {UserEntity} from "../adapter/data/entities/UserEntity";
+import {MAS, MicrosoftApiService} from "../adapter/microsoft/MicrosoftApiService";
 
 @Injectable()
 export class UserInteractor implements UserInteractorBoundary {
@@ -17,7 +18,9 @@ export class UserInteractor implements UserInteractorBoundary {
     @Inject(US)
     private readonly userService: UserService,
     @Inject(UP)
-    private readonly userPresenter: UserPresenter
+    private readonly userPresenter: UserPresenter,
+    @Inject(MAS)
+    private readonly microsoftApiService: MicrosoftApiService
   ) {
   }
 
@@ -26,6 +29,14 @@ export class UserInteractor implements UserInteractorBoundary {
     userRequestModel.code = IOCode.OK;
 
     try {
+
+      const microsoftUserDto = await this.microsoftApiService.getUserByEmail(userRequestModel.email);
+
+      if (microsoftUserDto === null){
+        userRequestModel.msg = IOMsg.NOT_ORG_USER;
+        userRequestModel.code = IOCode.ERROR;
+        return this.userPresenter.buildRegistrationResponse(userRequestModel);
+      }
 
       const user = await this.userService.getUserByEmail(userRequestModel.email);
 
@@ -56,7 +67,7 @@ export class UserInteractor implements UserInteractorBoundary {
       return this.userPresenter.buildRegistrationResponse(userRequestModel);
 
     } catch (e) {
-      console.log("error: ", e);
+      console.log("registerError: ", e);
       userRequestModel.msg = IOMsg.REGISTRATION_UNSUCCESSFUL;
       userRequestModel.code = IOCode.ERROR;
       return this.userPresenter.buildRegistrationResponse(userRequestModel);

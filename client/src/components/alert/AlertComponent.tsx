@@ -13,21 +13,14 @@ export class AlertComponent extends Component{
 	render() : ReactNode{
 		return (
 			<Modal
-				show={this.componentModel.isModalOpen}
-				onHide={()=>this.componentModel.changeModalState(false)}>
+				show={this.componentModel.status}
+				onHide={()=>this.componentModel.openOrClose(false)}>
 				<Modal.Header closeButton>
 					<Modal.Title id="contained-modal-title-vcenter">
-						Modal heading
+						{this.componentModel.title}
 					</Modal.Title>
 				</Modal.Header>
-				<Modal.Body>
-					<h4>Centered Modal</h4>
-					<p>
-						Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-						dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-						consectetur ac, vestibulum at eros.
-					</p>
-				</Modal.Body>
+				<Modal.Body><h5>{this.componentModel.body}</h5></Modal.Body>
 			</Modal>
 		)
 	}

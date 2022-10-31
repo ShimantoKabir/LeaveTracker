@@ -9,6 +9,7 @@ import {ProtectedRoutes} from "./security/ProtectedRoutes";
 import {UnProtectedRoutes} from "./security/UnProtectedRoutes";
 import {HomeComponent} from "./components/home/HomeComponent";
 import {AlertComponent} from "./components/alert/AlertComponent";
+import {RegistrationComponent} from "./components/registration/RegistrationComponent";
 
 export class App extends React.Component {
 	render(): React.ReactNode {
@@ -22,6 +23,7 @@ export class App extends React.Component {
 						</Route>
 						<Route element={<UnProtectedRoutes/>}>
 							<Route path="/" element={<LoginComponent/>}/>
+							<Route path="/registration" element={<RegistrationComponent/>}/>
 						</Route>
 					</Routes>
 				</BrowserRouter>
