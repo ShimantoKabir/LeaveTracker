@@ -1,13 +1,16 @@
 import {ChangeEvent, FormEvent} from "react";
+import {AlertDto} from "../../../dtos/AlertDto";
 
 export const LCM = "LCM";
 export interface LoginComponentModel {
 	email: string;
-	onInputChange(e: ChangeEvent<HTMLInputElement>): void,
-	loginByMicrosoft(): void,
-	isFormValid: boolean;
+	password: string;
 	isLoggedIn: boolean;
-	onLogin(e: FormEvent<HTMLFormElement>) : void;
+	isFormValid: boolean;
+	onInputChange(e: ChangeEvent<HTMLInputElement>): void;
+	loginByMicrosoft(): Promise<AlertDto>;
+	validateForm(e: FormEvent<HTMLFormElement>): boolean;
+	onLogin() : Promise<AlertDto>;
 }
 
 

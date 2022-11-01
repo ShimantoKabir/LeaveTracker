@@ -6,8 +6,6 @@ import {Button, Form} from "react-bootstrap";
 import {Link, Navigate} from "react-router-dom";
 import {LCM, LoginComponentModel} from "./model/LoginComponentModel";
 import {ACM, AlertComponentModel} from "../alert/model/AlertComponentModel";
-import {IOCode} from "../../common/IOCode";
-import {IOMsg} from "../../common/IOMsg";
 
 @observer
 export class LoginComponent extends Component{
@@ -18,24 +16,22 @@ export class LoginComponent extends Component{
 	@resolve(ACM)
 	private readonly alert!: AlertComponentModel;
 
-	login = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		e.stopPropagation();
-		this.alert.changeModalState({
-			code : IOCode.LOADING,
-			status: true,
-			title: IOMsg.LOADING_HEAD,
-			body: IOMsg.LOADING_MSG
-		});
-		this.componentModel.onLogin(e);
+	doLogin = async (e: FormEvent<HTMLFormElement>) => {
+		if (this.componentModel.validateForm(e)){
+			this.alert.startLoading();
+			this.alert.changeModalState(await this.componentModel.onLogin());
+		}
+	}
+
+	doMicrosoftLogin = async () => {
+		this.alert.startLoading();
+		this.alert.changeModalState(await this.componentModel.loginByMicrosoft());
 	}
 
 	render() : ReactNode{
-
 		if (this.componentModel.isLoggedIn) {
-			return <Navigate to="/home" replace/>;
+			return <Navigate to="/home" replace={true}/>;
 		}
-
 		return (
 			<main className="component-center" >
 				<div className="login-container" >
@@ -43,20 +39,35 @@ export class LoginComponent extends Component{
 					<Form
 						noValidate
 						validated={this.componentModel.isFormValid}
-						onSubmit={(e: FormEvent<HTMLFormElement>)=>this.login(e)}
+						onSubmit={(e: FormEvent<HTMLFormElement>)=>this.doLogin(e)}
 					>
 						<Form.Group className="mb-3" controlId="formBasicEmail">
-							<Form.Label>Email address</Form.Label>
+							<Form.Label>Email</Form.Label>
 							<Form.Control
 								required
 								type="email"
 								value={this.componentModel.email}
 								onChange={(e: ChangeEvent<HTMLInputElement>)=>this.componentModel.onInputChange(e)}
-								placeholder="Enter email address"
+								placeholder="Enter email"
 							/>
 							<Form.Control.Feedback>Looks good!</Form.Control.Feedback>
 							<Form.Control.Feedback type="invalid">
-								Please provide a email address
+								Please provide your email
+							</Form.Control.Feedback>
+						</Form.Group>
+						<Form.Group className="mb-3" controlId="formBasicPassword">
+							<Form.Label>Password</Form.Label>
+							<Form.Control
+								required
+								type="password"
+								autoComplete="off"
+								value={this.componentModel.password}
+								onChange={(e: ChangeEvent<HTMLInputElement>)=>this.componentModel.onInputChange(e)}
+								placeholder="Enter password"
+							/>
+							<Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+							<Form.Control.Feedback type="invalid">
+								Please provide your password
 							</Form.Control.Feedback>
 						</Form.Group>
 						<Button className="w-100" variant="primary" type="submit">
@@ -68,7 +79,7 @@ export class LoginComponent extends Component{
 					</div>
 					<Button
 						className="w-100"
-						onClick={this.componentModel.loginByMicrosoft}
+						onClick={this.doMicrosoftLogin}
 						variant="outline-success"
 						type="submit"
 					>

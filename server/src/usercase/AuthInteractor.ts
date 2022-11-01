@@ -6,6 +6,7 @@ import {US, UserService} from "../adapter/data/services/UserService";
 import {JwtService} from "@nestjs/jwt";
 import {ConfigService} from "@nestjs/config";
 import {AP, AuthPresenter} from "./presenters/AuthPresenter";
+import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class AuthInteractor implements AuthInteractorBoundary {
@@ -31,8 +32,21 @@ export class AuthInteractor implements AuthInteractorBoundary {
   }
 
   async login(authRequestModel: AuthRequestModel): Promise<AuthResponseModel> {
-    const tokens = await this.getTokens(authRequestModel);
-    return this.authPresenter.buildLoginOrRefreshResponse(tokens.authToken,tokens.refreshToken);
+
+    const user = await this.userService.getUserByEmail(authRequestModel.email);
+
+    if (!user){
+      return this.authPresenter.buildLoginOrRefreshResponse(null,null);
+    }
+
+    const isMatch = await bcrypt.compare(authRequestModel.password, user.password);
+
+    if (isMatch){
+      const tokens = await this.getTokens(authRequestModel);
+      return this.authPresenter.buildLoginOrRefreshResponse(tokens.authToken,tokens.refreshToken);
+    }
+
+    return this.authPresenter.buildLoginOrRefreshResponse(null,null);
   }
 
   async getTokens(authRequestModel: AuthRequestModel): Promise<{ authToken: string, refreshToken: string }> {

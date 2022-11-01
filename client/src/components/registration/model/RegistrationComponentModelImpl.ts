@@ -4,6 +4,10 @@ import {action, makeObservable, observable} from "mobx";
 import {inject, injectable} from "inversify";
 import {US, UserService} from "../../../services/api/UserService";
 import {AlertDto} from "../../../dtos/AlertDto";
+import {MAS, MicrosoftAuthService} from "../../../services/microsoft/MicrosoftAuthService";
+import {IOCode} from "../../../common/IOCode";
+import {IOMsg} from "../../../common/IOMsg";
+import {UDB, UserDtoBuilder} from "../../../dtos/builders/UserDtoBuilder";
 
 @injectable()
 export class RegistrationComponentModelImpl implements RegistrationComponentModel{
@@ -14,6 +18,12 @@ export class RegistrationComponentModelImpl implements RegistrationComponentMode
 
 	@inject(US)
 	private readonly userService!: UserService;
+
+	@inject(MAS)
+	private readonly microsoftAuthService!: MicrosoftAuthService;
+
+	@inject(UDB)
+	private readonly userDtoBuilder!: UserDtoBuilder;
 
 	constructor() {
 		makeObservable(this, {
@@ -36,14 +46,26 @@ export class RegistrationComponentModelImpl implements RegistrationComponentMode
 	}
 
 	async onRegistration(): Promise<AlertDto> {
-		return await this.userService.register({
-			email: this.email,
-			password: this.password
-		});
+		const user = this.userDtoBuilder.withEmail(this.email)
+			.withPassword(this.password)
+			.build();
+		return await this.userService.register(user);
 	}
 
-	registeredByMicrosoft(): void {
-
+	async registeredByMicrosoft(): Promise<AlertDto> {
+		const user = await this.microsoftAuthService.getUserInfo();
+		if (user === null){
+			return Promise.resolve({
+				code: IOCode.ERROR,
+				title: IOMsg.ERROR_HEAD,
+				body:  IOMsg.ERROR_BODY,
+				status: true
+			});
+		}
+		const userDto = this.userDtoBuilder.withEmail(user.email)
+		.withPassword(user.password)
+		.build();
+		return await this.userService.register(userDto);
 	}
 
 	validateForm(e: FormEvent<HTMLFormElement>): boolean {
@@ -52,7 +74,5 @@ export class RegistrationComponentModelImpl implements RegistrationComponentMode
 		this.isFormValid = !e.currentTarget.checkValidity();
 		return e.currentTarget.checkValidity();
 	}
-
-
 
 }

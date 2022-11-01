@@ -8,6 +8,6 @@ export interface RegistrationComponentModel{
 	isFormValid: boolean;
 	validateForm(e: FormEvent<HTMLFormElement>) : boolean;
 	onInputChange(e: ChangeEvent<HTMLInputElement>): void;
-	registeredByMicrosoft(): void;
+	registeredByMicrosoft(): Promise<AlertDto>;
 	onRegistration(): Promise<AlertDto>;
 }

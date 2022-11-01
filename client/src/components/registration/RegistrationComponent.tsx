@@ -16,10 +16,15 @@ export class RegistrationComponent extends Component{
 	private readonly alert!: AlertComponentModel;
 
 	doRegistration = async (e: FormEvent<HTMLFormElement>) => {
-		if (this.componentModel.validateForm(e) && e.currentTarget.checkValidity()){
+		if (this.componentModel.validateForm(e)){
 			this.alert.startLoading();
 			this.alert.changeModalState(await this.componentModel.onRegistration());
 		}
+	}
+
+	doMicrosoftRegistration = async () => {
+		this.alert.startLoading();
+		this.alert.changeModalState(await this.componentModel.registeredByMicrosoft());
 	}
 
 	render() : ReactNode {
@@ -52,7 +57,7 @@ export class RegistrationComponent extends Component{
 								required
 								type="password"
 								placeholder="Enter password"
-								autoComplete="false"
+								autoComplete="off"
 								value={this.componentModel.password}
 								onChange={(e: ChangeEvent<HTMLInputElement>)=>this.componentModel.onInputChange(e)}
 							/>
@@ -72,6 +77,7 @@ export class RegistrationComponent extends Component{
 						className="w-100"
 						variant="outline-success"
 						type="submit"
+						onClick={this.doMicrosoftRegistration}
 					>
 						Register with Microsoft
 					</Button>
