@@ -21,12 +21,10 @@ export class AuthInteractor implements AuthInteractorBoundary {
   ) {
   }
 
-  async refresh(email: string, password: string): Promise<AuthResponseModel> {
+  async refresh(id: number, email: string): Promise<AuthResponseModel> {
     const tokens = await this.getTokens({
-      password: password,
+      id: id,
       email: email,
-      msg: "",
-      code: 0
     });
     return this.authPresenter.buildLoginOrRefreshResponse(tokens.authToken,tokens.refreshToken);
   }
@@ -42,6 +40,7 @@ export class AuthInteractor implements AuthInteractorBoundary {
     const isMatch = await bcrypt.compare(authRequestModel.password, user.password);
 
     if (isMatch){
+      authRequestModel.id = user.id;
       const tokens = await this.getTokens(authRequestModel);
       return this.authPresenter.buildLoginOrRefreshResponse(tokens.authToken,tokens.refreshToken);
     }
@@ -51,18 +50,18 @@ export class AuthInteractor implements AuthInteractorBoundary {
 
   async getTokens(authRequestModel: AuthRequestModel): Promise<{ authToken: string, refreshToken: string }> {
     const jwtPayload = {
-      sub: authRequestModel.email,
-      email: authRequestModel.password,
+      sub: authRequestModel.id,
+      email: authRequestModel.email,
     };
 
     const [at, rt] = await Promise.all([
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get<string>('AT_SECRET'),
-        expiresIn: '1m',
+        expiresIn: this.config.get<string>('AT_SECRET_EXPIRES_IN'),
       }),
       this.jwtService.signAsync(jwtPayload, {
         secret: this.config.get<string>('RT_SECRET'),
-        expiresIn: '7d',
+        expiresIn: this.config.get<string>('RT_SECRET_EXPIRES_IN'),
       }),
     ]);
 

@@ -1,4 +1,5 @@
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn} from "typeorm";
+import {RoleEntity} from "./RoleEntity";
 
 @Entity()
 export class UserEntity {
@@ -11,4 +12,11 @@ export class UserEntity {
 
   @Column()
   password: string;
+
+  @OneToOne(() => RoleEntity,{
+    createForeignKeyConstraints : false
+  })
+  @JoinColumn()
+  role?: RoleEntity;
+
 }

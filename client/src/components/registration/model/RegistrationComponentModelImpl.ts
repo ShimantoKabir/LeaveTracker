@@ -8,6 +8,7 @@ import {MAS, MicrosoftAuthService} from "../../../services/microsoft/MicrosoftAu
 import {IOCode} from "../../../common/IOCode";
 import {IOMsg} from "../../../common/IOMsg";
 import {UDB, UserDtoBuilder} from "../../../dtos/builders/UserDtoBuilder";
+import {ADB, AlertDtoBuilder} from "../../../dtos/builders/AlertDtoBuilder";
 
 @injectable()
 export class RegistrationComponentModelImpl implements RegistrationComponentModel{
@@ -24,6 +25,9 @@ export class RegistrationComponentModelImpl implements RegistrationComponentMode
 
 	@inject(UDB)
 	private readonly userDtoBuilder!: UserDtoBuilder;
+
+	@inject(ADB)
+	private readonly alertDtoBuilder!: AlertDtoBuilder;
 
 	constructor() {
 		makeObservable(this, {
@@ -55,12 +59,12 @@ export class RegistrationComponentModelImpl implements RegistrationComponentMode
 	async registeredByMicrosoft(): Promise<AlertDto> {
 		const user = await this.microsoftAuthService.getUserInfo();
 		if (user === null){
-			return Promise.resolve({
-				code: IOCode.ERROR,
-				title: IOMsg.ERROR_HEAD,
-				body:  IOMsg.ERROR_BODY,
-				status: true
-			});
+			const alertDto = this.alertDtoBuilder.withCode(IOCode.ERROR)
+				.withBody(IOMsg.ERROR_BODY)
+				.withTitle(IOMsg.ERROR_HEAD)
+				.withStatus(true)
+				.build();
+			return Promise.resolve(alertDto);
 		}
 		const userDto = this.userDtoBuilder.withEmail(user.email)
 		.withPassword(user.password)

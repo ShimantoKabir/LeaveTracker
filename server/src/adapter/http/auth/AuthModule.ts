@@ -12,10 +12,13 @@ import {PassportModule} from "@nestjs/passport";
 import {AuthTokenStrategy} from "../../security/strategies/AuthTokenStrategy";
 import {JwtModule} from "@nestjs/jwt";
 import {RefreshTokenStrategy} from "../../security/strategies/RefreshTokenStrategy";
+import {RoleEntity} from "../../data/entities/RoleEntity";
+import {RS} from "../../data/services/RoleService";
+import {RoleServiceImpl} from "../../data/services/implementations/RoleServiceImpl";
 
 @Module({
   imports : [
-    TypeOrmModule.forFeature([UserEntity]),
+    TypeOrmModule.forFeature([UserEntity, RoleEntity]),
     JwtModule.register({}),
     PassportModule
   ],
@@ -32,6 +35,10 @@ import {RefreshTokenStrategy} from "../../security/strategies/RefreshTokenStrate
     {
       provide: US,
       useClass: UserServiceImpl
+    },
+    {
+      provide: RS,
+      useClass: RoleServiceImpl
     },
     AuthTokenStrategy,
     RefreshTokenStrategy

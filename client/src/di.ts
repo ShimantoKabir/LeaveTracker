@@ -11,6 +11,8 @@ import {MAS, MicrosoftAuthService} from "./services/microsoft/MicrosoftAuthServi
 import {MicrosoftAuthServiceImpl} from "./services/microsoft/implementations/MicrosoftAuthServiceImpl";
 import {UDB, UserDtoBuilder} from "./dtos/builders/UserDtoBuilder";
 import {UserDtoBuilderImpl} from "./dtos/builders/implementations/UserDtoBuilderImpl";
+import {ADB, AlertDtoBuilder} from "./dtos/builders/AlertDtoBuilder";
+import {AlertDtoBuilderImpl} from "./dtos/builders/implementations/AlertDtoBuilderImpl";
 
 const container = new Container();
 
@@ -20,5 +22,6 @@ container.bind<RegistrationComponentModel>(RCM).to(RegistrationComponentModelImp
 container.bind<UserService>(US).to(UserServiceImpl);
 container.bind<MicrosoftAuthService>(MAS).to(MicrosoftAuthServiceImpl);
 container.bind<UserDtoBuilder>(UDB).to(UserDtoBuilderImpl);
+container.bind<AlertDtoBuilder>(ADB).to(AlertDtoBuilderImpl);
 
 export const DiContainer = container;

@@ -13,7 +13,6 @@ export class AuthTokenStrategy extends PassportStrategy(Strategy,"AT") {
   }
 
   async validate(payload: any) {
-    console.log("payload",payload);
     return payload;
   }
 }

@@ -11,6 +11,7 @@ import {UDB, UserDtoBuilder} from "../../../dtos/builders/UserDtoBuilder";
 import AppConstants from "../../../common/AppConstants";
 import {Cookies} from "react-cookie";
 import {MAS, MicrosoftAuthService} from "../../../services/microsoft/MicrosoftAuthService";
+import {ADB, AlertDtoBuilder} from "../../../dtos/builders/AlertDtoBuilder";
 
 @injectable()
 export class LoginComponentModelImpl implements LoginComponentModel {
@@ -28,6 +29,9 @@ export class LoginComponentModelImpl implements LoginComponentModel {
 
 	@inject(MAS)
 	private readonly microsoftAuthService!: MicrosoftAuthService;
+
+	@inject(ADB)
+	private readonly alertDtoBuilder!: AlertDtoBuilder;
 
 	constructor() {
 		makeObservable(this, {
@@ -58,23 +62,24 @@ export class LoginComponentModelImpl implements LoginComponentModel {
 			this.isLoggedIn = true;
 		}
 
-		return Promise.resolve({
-			code: userDtoRes.code,
-			status: !isOk,
-			body: userDtoRes.msg,
-			title: isOk ? IOMsg.SUCCESS_HEAD : IOMsg.ERROR_HEAD
-		});
+		const alertDto = this.alertDtoBuilder.withCode(userDtoRes.code)
+			.withTitle(isOk ? IOMsg.SUCCESS_HEAD : IOMsg.ERROR_HEAD)
+			.withStatus(!isOk)
+			.withBody(userDtoRes.msg)
+			.build();
+
+		return Promise.resolve(alertDto);
 	}
 
 	async loginByMicrosoft(): Promise<AlertDto> {
 		const user = await this.microsoftAuthService.getUserInfo();
 		if (user === null){
-			return Promise.resolve({
-				code: IOCode.ERROR,
-				title: IOMsg.ERROR_HEAD,
-				body:  IOMsg.ERROR_BODY,
-				status: true
-			});
+			const alertDto = this.alertDtoBuilder.withCode(IOCode.ERROR)
+			.withBody(IOMsg.ERROR_BODY)
+			.withTitle(IOMsg.ERROR_HEAD)
+			.withStatus(true)
+			.build();
+			return Promise.resolve(alertDto);
 		}
 		this.email = user.email;
 		this.password = user.password;

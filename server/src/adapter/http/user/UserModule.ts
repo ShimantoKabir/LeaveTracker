@@ -11,10 +11,13 @@ import UserServiceImpl from "../../data/services/implementations/UserServiceImpl
 import {MAS} from "../../microsoft/MicrosoftApiService";
 import {MicrosoftApiServiceImpl} from "../../microsoft/implementations/MicrosoftApiServiceImpl";
 import {HttpModule} from "@nestjs/axios";
+import {RS} from "../../data/services/RoleService";
+import {RoleServiceImpl} from "../../data/services/implementations/RoleServiceImpl";
+import {RoleEntity} from "../../data/entities/RoleEntity";
 
 @Module({
   imports : [
-    TypeOrmModule.forFeature([UserEntity]),
+    TypeOrmModule.forFeature([UserEntity, RoleEntity]),
     HttpModule
   ],
   controllers: [UserController],
@@ -34,6 +37,10 @@ import {HttpModule} from "@nestjs/axios";
     {
       provide: MAS,
       useClass: MicrosoftApiServiceImpl
+    },
+    {
+      provide: RS,
+      useClass: RoleServiceImpl
     }
   ],
 })

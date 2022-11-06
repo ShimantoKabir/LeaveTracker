@@ -4,7 +4,7 @@ import {UserRequestModel} from "../../../usercase/domains/UserRequestModel";
 import {UserResponseModel} from "../../../usercase/domains/UserResponseModel";
 import {Public} from "../../security/PublicEndPoint";
 
-@Controller("user")
+@Controller("users")
 export class UserController {
 
   constructor(

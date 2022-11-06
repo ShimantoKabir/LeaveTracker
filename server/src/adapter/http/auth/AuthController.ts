@@ -30,6 +30,6 @@ export class AuthController{
   @UseGuards(RefreshTokenGuard)
   @Post("refresh")
   async refresh(@Request() req): Promise<AuthResponseModel> {
-    return this.authInteractorBoundary.refresh(req.user.sub,req.user.password);
+    return this.authInteractorBoundary.refresh(req.user.sub,req.user.email);
   }
 }
