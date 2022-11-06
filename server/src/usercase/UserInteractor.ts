@@ -67,11 +67,18 @@ export class UserInteractor implements UserInteractorBoundary {
       return this.userPresenter.buildRegistrationResponse(userRequestModel);
 
     } catch (e) {
-      console.log("registerError: ", e);
       userRequestModel.msg = IOMsg.REGISTRATION_UNSUCCESSFUL;
       userRequestModel.code = IOCode.ERROR;
       return this.userPresenter.buildRegistrationResponse(userRequestModel);
     }
   }
 
+  async assignRole(userRequestModel: UserRequestModel): Promise<UserResponseModel> {
+    try {
+      const result = await this.userService.assignRoleToUser(userRequestModel.roleId, userRequestModel.id)
+      return this.userPresenter.buildRoleAssignResponse(result.affected && result.affected > 0);
+    }catch (e) {
+      return this.userPresenter.buildRoleAssignResponse(false);
+    }
+  }
 }

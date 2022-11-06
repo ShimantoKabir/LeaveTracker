@@ -19,5 +19,6 @@ export enum IOMsg{
   NO_DATA_API = "No data found to populate on spread sheet!",
   NO_SITE = "No site found to populate data on spread sheet!",
   COMING_SOON = "Other tool service coming soon....!",
-  DELETE_SUCCESS = "Successfully deleted!"
+  DELETE_SUCCESS = "Successfully deleted!",
+  ROLE_ASSIGNED = "Role assigned successfully!"
 }

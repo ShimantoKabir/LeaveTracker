@@ -18,7 +18,7 @@ export default class UserServiceImpl implements UserService {
 
   async assignRoleToUser(roleId: number, userId: number): Promise<UpdateResult> {
     let userEntity = await this.getUserId(userId);
-    userEntity.role = await this.roleService.read(roleId);
+    userEntity.role = await this.roleService.read(roleId)
     return await this.userRepository.update(userId, userEntity);
   }
 

@@ -20,4 +20,11 @@ export class UserController {
   ): Promise<UserResponseModel> {
     return await this.userInteractorBoundary.register(userRequestModel);
   }
+
+  @Post("roles")
+  async assignRole(
+    @Body() userRequestModel: UserRequestModel
+  ): Promise<UserResponseModel> {
+    return await this.userInteractorBoundary.assignRole(userRequestModel);
+  }
 }

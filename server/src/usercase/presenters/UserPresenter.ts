@@ -3,5 +3,6 @@ import {UserResponseModel} from "../domains/UserResponseModel";
 
 export const UP = 'UP';
 export interface UserPresenter{
-  buildRegistrationResponse(userRequestModel : UserRequestModel) : Promise<UserResponseModel>
+  buildRegistrationResponse(userRequestModel : UserRequestModel) : Promise<UserResponseModel>;
+  buildRoleAssignResponse(isAssigned: boolean): Promise<UserResponseModel>;
 }
