@@ -8,6 +8,7 @@ import {AuthTokenGuard} from "./adapter/security/guards/AuthTokenGuard";
 import {UserModule} from "./adapter/http/user/UserModule";
 import {RoleEntity} from "./adapter/data/entities/RoleEntity";
 import {RoleModule} from "./adapter/http/role/RoleModule";
+import {LeaveEntity} from "./adapter/data/entities/LeaveEntity";
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import {RoleModule} from "./adapter/http/role/RoleModule";
     TypeOrmModule.forRoot({
       type: "sqlite",
       database: "db.sqlite",
-      entities: [UserEntity,RoleEntity],
+      entities: [UserEntity,RoleEntity,LeaveEntity],
       synchronize: true
     }),
     ConfigModule.forRoot({isGlobal: true})

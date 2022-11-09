@@ -10,6 +10,8 @@ import AppConstants from "../common/AppConstants";
 import * as bcrypt from "bcrypt";
 import {UserEntity} from "../adapter/data/entities/UserEntity";
 import {MAS, MicrosoftApiService} from "../adapter/microsoft/MicrosoftApiService";
+import {Pagination} from "nestjs-typeorm-paginate";
+import {CalendarRequestModel} from "./domains/CalendarRequestModel";
 
 @Injectable()
 export class UserInteractor implements UserInteractorBoundary {
@@ -80,5 +82,27 @@ export class UserInteractor implements UserInteractorBoundary {
     }catch (e) {
       return this.userPresenter.buildRoleAssignResponse(false);
     }
+  }
+
+  async getUsers(userRequestModel: UserRequestModel): Promise<UserResponseModel> {
+    let response : Pagination<UserEntity> | string;
+    try {
+      response = await this.userService.readAll({
+        limit : userRequestModel.limit,
+        page: userRequestModel.page
+      });
+      response.items.map(user=>{
+        delete user.password;
+        return user;
+      });
+    }catch (e) {
+      response = e.code;
+    }
+    return this.userPresenter.buildGetAllResponse(response)
+  }
+
+  async fetchLeaveDetails(calendarRequestModel: CalendarRequestModel): Promise<UserResponseModel> {
+    const leaves = await this.microsoftApiService.getLeavesByEmail(calendarRequestModel);
+    return this.userPresenter.buildLeaveResponse(leaves);
   }
 }

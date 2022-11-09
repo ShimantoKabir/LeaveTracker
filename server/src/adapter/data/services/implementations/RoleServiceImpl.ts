@@ -3,7 +3,7 @@ import {Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 import {Equal, Repository, UpdateResult} from "typeorm";
 import {RoleEntity} from "../../entities/RoleEntity";
-import { IPaginationOptions, paginate, Pagination } from "nestjs-typeorm-paginate";
+import {IPaginationOptions, paginate, Pagination} from "nestjs-typeorm-paginate";
 
 @Injectable()
 export class RoleServiceImpl implements RoleService{

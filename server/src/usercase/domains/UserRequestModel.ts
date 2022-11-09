@@ -15,4 +15,8 @@ export class UserRequestModel{
 
   code: number;
   msg: string;
+  page?: number;
+  limit?: number;
+  startDate?: string;
+  endDate?: string;
 }

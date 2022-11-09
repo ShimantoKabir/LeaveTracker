@@ -3,7 +3,7 @@ import {UserEntity} from "../../data/entities/UserEntity";
 import {Module} from "@nestjs/common";
 import {AuthController} from "./AuthController";
 import {US} from "../../data/services/UserService";
-import UserServiceImpl from "../../data/services/implementations/UserServiceImpl";
+import {UserServiceImpl} from "../../data/services/implementations/UserServiceImpl";
 import {AP} from "../../../usercase/presenters/AuthPresenter";
 import {AuthResponseModel} from "../../../usercase/domains/AuthResponseModel";
 import {AIB} from "../../../usercase/boundaries/AuthInteractorBoundary";

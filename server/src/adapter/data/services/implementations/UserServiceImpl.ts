@@ -4,9 +4,10 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {Repository, UpdateResult} from "typeorm";
 import {UserEntity} from "../../entities/UserEntity";
 import {RoleService, RS} from "../RoleService";
+import {IPaginationOptions, paginate, Pagination} from "nestjs-typeorm-paginate";
 
 @Injectable()
-export default class UserServiceImpl implements UserService {
+export class UserServiceImpl implements UserService {
 
   constructor(
     @InjectRepository(UserEntity)
@@ -40,5 +41,11 @@ export default class UserServiceImpl implements UserService {
         id: id
       }
     });
+  }
+
+  async readAll(options: IPaginationOptions): Promise<Pagination<UserEntity>> {
+    const queryBuilder = this.userRepository.createQueryBuilder("s");
+    queryBuilder.orderBy("s.id", "DESC");
+    return await paginate<UserEntity>(queryBuilder, options);
   }
 }
