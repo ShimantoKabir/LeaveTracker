@@ -1,4 +1,4 @@
-import {Body, Controller, DefaultValuePipe, Get, Inject, Param, ParseIntPipe, Post, Query} from "@nestjs/common";
+import {Body, Controller, DefaultValuePipe, Get, Inject, Request, ParseIntPipe, Post, Query} from "@nestjs/common";
 import {UIB, UserInteractorBoundary} from "../../../usercase/boundaries/UserInteractorBoundary";
 import {UserRequestModel} from "../../../usercase/domains/UserRequestModel";
 import {UserResponseModel} from "../../../usercase/domains/UserResponseModel";
@@ -44,9 +44,12 @@ export class UserController {
 
   @Post("leaves")
   async fetchLeaveDetailsByEmail(
-    @Body() calendarRequestModel: CalendarRequestModel
+    @Body() calendarRequestModel: CalendarRequestModel,
+    @Request() request
   ): Promise<UserResponseModel> {
+    if (!calendarRequestModel.email){
+      calendarRequestModel.email = request.user.email;
+    }
     return this.userInteractorBoundary.fetchLeaveDetails(calendarRequestModel);
   }
-
 }

@@ -22,7 +22,7 @@ export class UserServiceImpl implements UserService{
 	async register(userDto: UserDto): Promise<AlertDto> {
 		try {
 
-			const res = await axios.post<ResponseDto>(AppConstants.baseUrl+"user/register", {
+			const res = await axios.post<ResponseDto>(AppConstants.baseUrl+"users/register", {
 				email: userDto.email,
 				password: userDto.password
 			});

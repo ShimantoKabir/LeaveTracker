@@ -6,6 +6,8 @@ import {Button, Form} from "react-bootstrap";
 import {Link, Navigate} from "react-router-dom";
 import {LCM, LoginComponentModel} from "./model/LoginComponentModel";
 import {ACM, AlertComponentModel} from "../alert/model/AlertComponentModel";
+import {PCM, ProtectedComponentModel} from "../../security/model/ProtectedComponentModel";
+import {IOCode} from "../../common/IOCode";
 
 @observer
 export class LoginComponent extends Component{
@@ -16,16 +18,23 @@ export class LoginComponent extends Component{
 	@resolve(ACM)
 	private readonly alert!: AlertComponentModel;
 
+	@resolve(PCM)
+	private readonly protectedComponent!: ProtectedComponentModel;
+
 	doLogin = async (e: FormEvent<HTMLFormElement>) => {
 		if (this.componentModel.validateForm(e)){
 			this.alert.startLoading();
-			this.alert.changeModalState(await this.componentModel.onLogin());
+			const alertDto = await this.componentModel.onLogin();
+			this.alert.changeModalState(alertDto);
+			alertDto.code === IOCode.OK && this.protectedComponent.displayProtectComponent(true);
 		}
 	}
 
 	doMicrosoftLogin = async () => {
 		this.alert.startLoading();
-		this.alert.changeModalState(await this.componentModel.loginByMicrosoft());
+		const alertDto = await this.componentModel.loginByMicrosoft()
+		this.alert.changeModalState(alertDto);
+		alertDto.code === IOCode.OK && this.protectedComponent.displayProtectComponent(true);
 	}
 
 	render() : ReactNode{

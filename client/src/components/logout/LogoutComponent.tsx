@@ -2,17 +2,23 @@ import {FC, ReactElement} from 'react';
 import {useNavigate} from "react-router-dom";
 import {useCookies} from "react-cookie";
 import AppConstants from "../../common/AppConstants";
+import {Button} from "react-bootstrap";
 
-export const LogoutComponent: FC = (): ReactElement => {
+interface Props {
+	onLogout : Function
+}
+
+export const LogoutComponent: FC<Props> = (props: Props): ReactElement => {
 	let navigate = useNavigate();
 	const [, , removeCookie] = useCookies();
 	const goHome = () => {
 		removeCookie(AppConstants.loggedInCookieName);
 		removeCookie(AppConstants.authTokenCookieName);
 		removeCookie(AppConstants.refreshTokenCookieName);
+		props.onLogout();
 		navigate("/");
 	};
 	return (
-		<button onClick={goHome}>Logout</button>
+		<Button variant="outline-success" onClick={goHome}>Logout</Button>
 	);
 };

@@ -10,6 +10,7 @@ import {UnProtectedRoutes} from "./security/UnProtectedRoutes";
 import {HomeComponent} from "./components/home/HomeComponent";
 import {AlertComponent} from "./components/alert/AlertComponent";
 import {RegistrationComponent} from "./components/registration/RegistrationComponent";
+import {ProtectedComponent} from "./security/ProtectedComponent";
 
 export class App extends React.Component {
 	render(): React.ReactNode {
@@ -17,6 +18,7 @@ export class App extends React.Component {
 			<Provider container={DiContainer}>
 				<BrowserRouter>
 					<AlertComponent/>
+					<ProtectedComponent/>
 					<Routes>
 						<Route element={<ProtectedRoutes/>}>
 							<Route path="/home" element={<HomeComponent/>}/>

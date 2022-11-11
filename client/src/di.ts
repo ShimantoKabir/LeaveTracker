@@ -13,11 +13,14 @@ import {UDB, UserDtoBuilder} from "./dtos/builders/UserDtoBuilder";
 import {UserDtoBuilderImpl} from "./dtos/builders/implementations/UserDtoBuilderImpl";
 import {ADB, AlertDtoBuilder} from "./dtos/builders/AlertDtoBuilder";
 import {AlertDtoBuilderImpl} from "./dtos/builders/implementations/AlertDtoBuilderImpl";
+import {PCM, ProtectedComponentModel} from "./security/model/ProtectedComponentModel";
+import {ProtectedComponentModelImpl} from "./security/model/ProtectedComponentModelImpl";
 
 const container = new Container();
 
 container.bind<LoginComponentModel>(LCM).to(LoginComponentModelImpl);
 container.bind<AlertComponentModel>(ACM).to(AlertComponentModelImpl).inSingletonScope();
+container.bind<ProtectedComponentModel>(PCM).to(ProtectedComponentModelImpl).inSingletonScope();
 container.bind<RegistrationComponentModel>(RCM).to(RegistrationComponentModelImpl);
 container.bind<UserService>(US).to(UserServiceImpl);
 container.bind<MicrosoftAuthService>(MAS).to(MicrosoftAuthServiceImpl);

@@ -1,7 +1,9 @@
-import {IsDateString, IsEmail} from "class-validator";
+import {IsDateString, IsEmail, ValidateIf} from "class-validator";
 
 export class CalendarRequestModel{
+
   @IsEmail()
+  @ValidateIf((object, value) => value)
   email: string;
 
   @IsDateString()
