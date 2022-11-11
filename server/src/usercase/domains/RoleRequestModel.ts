@@ -1,4 +1,4 @@
-import {IsNotEmpty, IsString} from "class-validator";
+import {IsArray, IsNotEmpty, IsString} from "class-validator";
 
 export class RoleRequestModel{
   id: number;
@@ -6,6 +6,9 @@ export class RoleRequestModel{
   @IsNotEmpty()
   @IsString()
   roleName: string;
+
+  @IsArray()
+  paths: string[]
 
   code: number;
   msg: string;

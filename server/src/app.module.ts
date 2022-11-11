@@ -9,16 +9,19 @@ import {UserModule} from "./adapter/http/user/UserModule";
 import {RoleEntity} from "./adapter/data/entities/RoleEntity";
 import {RoleModule} from "./adapter/http/role/RoleModule";
 import {LeaveEntity} from "./adapter/data/entities/LeaveEntity";
+import {RouteModule} from "./adapter/http/route/RouteModule";
+import {RouteEntity} from "./adapter/data/entities/RouteEntity";
 
 @Module({
   imports: [
     AuthModule,
     UserModule,
     RoleModule,
+    RouteModule,
     TypeOrmModule.forRoot({
       type: "sqlite",
       database: "db.sqlite",
-      entities: [UserEntity,RoleEntity,LeaveEntity],
+      entities: [UserEntity,RoleEntity,LeaveEntity,RouteEntity],
       synchronize: true
     }),
     ConfigModule.forRoot({isGlobal: true})

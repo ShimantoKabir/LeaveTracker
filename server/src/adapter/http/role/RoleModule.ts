@@ -2,8 +2,6 @@ import {Module} from "@nestjs/common";
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {RoleEntity} from "../../data/entities/RoleEntity";
 import {HttpModule} from "@nestjs/axios";
-import {MAS} from "../../microsoft/MicrosoftApiService";
-import {MicrosoftApiServiceImpl} from "../../microsoft/implementations/MicrosoftApiServiceImpl";
 import {RS} from "../../data/services/RoleService";
 import {RoleServiceImpl} from "../../data/services/implementations/RoleServiceImpl";
 import {RoleController} from "./RoleController";
