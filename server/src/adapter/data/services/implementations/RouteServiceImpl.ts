@@ -1,7 +1,7 @@
 import {RouteService} from "../RouteService";
 import {RouteEntity} from "../../entities/RouteEntity";
 import {IPaginationOptions, paginate, Pagination} from "nestjs-typeorm-paginate";
-import {Equal, Repository, UpdateResult} from "typeorm";
+import {Equal, In, Repository, UpdateResult} from "typeorm";
 import {Injectable} from "@nestjs/common";
 import {InjectRepository} from "@nestjs/typeorm";
 
@@ -39,5 +39,15 @@ export class RouteServiceImpl implements RouteService{
 
   async update(routeEntity: RouteEntity): Promise<UpdateResult> {
     return await this.routeRepository.update(routeEntity.id, routeEntity);
+  }
+
+  async readByIds(ids: string[]): Promise<string[]> {
+    const routes = await this.routeRepository.findBy({
+      id: In(ids)
+    })
+
+    return routes.map(obj => {
+      return obj.path;
+    });
   }
 }

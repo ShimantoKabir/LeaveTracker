@@ -15,10 +15,15 @@ import {RefreshTokenStrategy} from "../../security/strategies/RefreshTokenStrate
 import {RoleEntity} from "../../data/entities/RoleEntity";
 import {RS} from "../../data/services/RoleService";
 import {RoleServiceImpl} from "../../data/services/implementations/RoleServiceImpl";
+import {ROS} from "../../data/services/RouteService";
+import {RouteServiceImpl} from "../../data/services/implementations/RouteServiceImpl";
+import {RouteEntity} from "../../data/entities/RouteEntity";
+import {ADB} from "../../../dtos/builders/AuthDtoBuilder";
+import {AuthDtoBuilderImpl} from "../../../dtos/builders/implementations/AuthDtoBuilderImpl";
 
 @Module({
   imports : [
-    TypeOrmModule.forFeature([UserEntity, RoleEntity]),
+    TypeOrmModule.forFeature([UserEntity, RoleEntity, RouteEntity]),
     JwtModule.register({}),
     PassportModule
   ],
@@ -39,6 +44,14 @@ import {RoleServiceImpl} from "../../data/services/implementations/RoleServiceIm
     {
       provide: RS,
       useClass: RoleServiceImpl
+    },
+    {
+      provide: ROS,
+      useClass: RouteServiceImpl
+    },
+    {
+      provide: ADB,
+      useClass: AuthDtoBuilderImpl
     },
     AuthTokenStrategy,
     RefreshTokenStrategy

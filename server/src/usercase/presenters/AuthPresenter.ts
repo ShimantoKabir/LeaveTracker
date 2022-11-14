@@ -1,7 +1,7 @@
-import {AuthRequestModel} from "../domains/AuthRequestModel";
 import {AuthResponseModel} from "../domains/AuthResponseModel";
+import {AuthDto} from "../../dtos/AuthDto";
 
 export const AP = "AP"
 export interface AuthPresenter{
-  buildLoginOrRefreshResponse(authToken : string|null, refreshToken: string|null) : Promise<AuthResponseModel>
+  buildLoginOrRefreshResponse(authDto: AuthDto) : Promise<AuthResponseModel>
 }

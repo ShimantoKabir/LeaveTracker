@@ -13,4 +13,5 @@ export class AuthRequestModel{
 
   code?: number;
   msg?: string;
+  paths?: string[];
 }

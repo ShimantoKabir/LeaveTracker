@@ -27,6 +27,9 @@ export class UserServiceImpl implements UserService {
     return await this.userRepository.findOne({
       where: {
         email: email
+      },
+      relations : {
+        role: true
       }
     });
   }
@@ -39,6 +42,9 @@ export class UserServiceImpl implements UserService {
     return await this.userRepository.findOne({
       where: {
         id: id
+      },
+      relations : {
+        role: true
       }
     });
   }
