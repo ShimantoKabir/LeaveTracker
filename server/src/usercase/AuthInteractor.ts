@@ -29,7 +29,7 @@ export class AuthInteractor implements AuthInteractorBoundary {
 
   async refresh(id: number, email: string): Promise<AuthResponseModel> {
     const user = await this.userService.getUserByEmail(email);
-    const paths = user.role === null ? [] : await this.routeService.readByIds(user.role.paths);
+    const paths = user.role === null ? [] : await this.routeService.readByIds(user.role.pathIds);
 
     const tokens = await this.getTokens({
       id: id,
@@ -62,7 +62,7 @@ export class AuthInteractor implements AuthInteractorBoundary {
 
     if (isMatch){
       authRequestModel.id = user.id;
-      authRequestModel.paths = user.role === null ? [] : await this.routeService.readByIds(user.role.paths);
+      authRequestModel.paths = user.role === null ? [] : await this.routeService.readByIds(user.role.pathIds);
       const tokens = await this.getTokens(authRequestModel);
 
       const authDto = this.authDtoBuilder.withAuthToken(tokens.authToken)

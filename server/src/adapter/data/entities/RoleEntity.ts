@@ -10,5 +10,5 @@ export class RoleEntity{
   roleName: string;
 
   @Column("simple-array")
-  paths: string[]
+  pathIds: string[]
 }

@@ -8,7 +8,7 @@ export class RoleRequestModel{
   roleName: string;
 
   @IsArray()
-  paths: string[]
+  pathIds: string[]
 
   code: number;
   msg: string;
