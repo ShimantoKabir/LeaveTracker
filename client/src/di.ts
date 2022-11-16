@@ -15,6 +15,8 @@ import {ADB, AlertDtoBuilder} from "./dtos/builders/AlertDtoBuilder";
 import {AlertDtoBuilderImpl} from "./dtos/builders/implementations/AlertDtoBuilderImpl";
 import {PCM, ProtectedComponentModel} from "./security/model/ProtectedComponentModel";
 import {ProtectedComponentModelImpl} from "./security/model/ProtectedComponentModelImpl";
+import {HS, HttpService} from "./services/http/HttpService";
+import {HttpServiceImpl} from "./services/http/HttpServiceImpl";
 
 const container = new Container();
 
@@ -26,5 +28,6 @@ container.bind<UserService>(US).to(UserServiceImpl);
 container.bind<MicrosoftAuthService>(MAS).to(MicrosoftAuthServiceImpl);
 container.bind<UserDtoBuilder>(UDB).to(UserDtoBuilderImpl);
 container.bind<AlertDtoBuilder>(ADB).to(AlertDtoBuilderImpl);
+container.bind<HttpService>(HS).to(HttpServiceImpl).inSingletonScope();
 
 export const DiContainer = container;

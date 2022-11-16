@@ -1,5 +1,5 @@
 import {Component, ReactNode} from "react";
-import {Container, Form, Nav, Navbar} from "react-bootstrap";
+import {Container, Nav, Navbar} from "react-bootstrap";
 import {LogoutComponent} from "../logout/LogoutComponent";
 import {resolve} from "inversify-react";
 import {PCM, ProtectedComponentModel} from "../../security/model/ProtectedComponentModel";

@@ -1,27 +1,24 @@
 export default class AppConstants {
 	public static baseUrl = "http://localhost:3001/";
-	// public static baseUrl = "https://ab-test-report-server-production.up.railway.app/";
-	public static axiosHeader = {
-		'Content-Type': 'application/json'
-	};
-	public static getAxiosHeader = () => {
-		return {
-			'Content-Type': 'application/json',
-			'Authorization': GetJwtToken()
-		}
-	};
 	public static loggedInCookieName = "isLoggedIn";
 	public static authTokenCookieName = "authToken";
 	public static refreshTokenCookieName = "refreshToken";
-	public static jwtCookieName = "jwt";
 }
 
-function GetJwtToken(): string {
-	const cookieObj: { isLoggedIn: boolean, jwt: string } =
-		document.cookie.split('; ').reduce((prev: any, current: string) => {
-			const [name, ...value] = current.split('=');
-			prev[name] = value.join('=');
-			return prev;
-		}, {});
-	return cookieObj.jwt;
-}
+// AdeleV@4pq13c.onmicrosoft.com
+// AlexW@4pq13c.onmicrosoft.com
+// DiegoS@4pq13c.onmicrosoft.com
+// GradyA@4pq13c.onmicrosoft.com
+// HenriettaM@4pq13c.onmicrosoft.com
+// IsaiahL@4pq13c.onmicrosoft.com
+// JohannaL@4pq13c.onmicrosoft.com
+// JoniS@4pq13c.onmicrosoft.com
+// LeeG@4pq13c.onmicrosoft.com
+// LidiaH@4pq13c.onmicrosoft.com
+// LynneR@4pq13c.onmicrosoft.com
+// MeganB@4pq13c.onmicrosoft.com
+// MiriamG@4pq13c.onmicrosoft.com
+// NestorW@4pq13c.onmicrosoft.com
+// PattiF@4pq13c.onmicrosoft.com
+// PradeepG@4pq13c.onmicrosoft.com
+
