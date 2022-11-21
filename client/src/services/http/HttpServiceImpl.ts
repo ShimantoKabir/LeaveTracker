@@ -37,6 +37,7 @@ export class HttpServiceImpl implements HttpService{
 					'Authorization': 'Bearer '+ authToken
 				}
 			}else {
+				console.log("hihi");
 				try {
 					const refreshRes = await axios({
 						method: 'post',

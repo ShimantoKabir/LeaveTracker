@@ -3,6 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import {ConfigService} from "@nestjs/config";
 import {StrategyPayload} from "../StrategyPayload";
+import {RouteType} from "../../../types/RouteType";
 
 @Injectable()
 export class AuthTokenStrategy extends PassportStrategy(Strategy,"AT") {
@@ -16,7 +17,9 @@ export class AuthTokenStrategy extends PassportStrategy(Strategy,"AT") {
 
   async validate(request: Request,payload: StrategyPayload) {
     console.log(request.url);
-    const index = payload.paths.findIndex(path=>path === request.url);
+    console.log("payload=",payload);
+
+    const index = payload.routes.findIndex(route=>route.type === RouteType.API_ROUTE && route.path === request.url);
     if (index === -1){
       throw new UnauthorizedException();
     }

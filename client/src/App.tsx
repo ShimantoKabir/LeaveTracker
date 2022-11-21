@@ -11,6 +11,8 @@ import {HomeComponent} from "./components/home/HomeComponent";
 import {AlertComponent} from "./components/alert/AlertComponent";
 import {RegistrationComponent} from "./components/registration/RegistrationComponent";
 import {ProtectedComponent} from "./security/ProtectedComponent";
+import {RoleComponent} from "./components/role/RoleComponent";
+import {RouteComponent} from "./components/route/RouteComponent";
 
 export class App extends React.Component {
 	render(): React.ReactNode {
@@ -22,6 +24,8 @@ export class App extends React.Component {
 					<Routes>
 						<Route element={<ProtectedRoutes/>}>
 							<Route path="/home" element={<HomeComponent/>}/>
+							<Route path="/role" element={<RoleComponent/>} />
+							<Route path="/route" element={<RouteComponent/>} />
 						</Route>
 						<Route element={<UnProtectedRoutes/>}>
 							<Route path="/" element={<LoginComponent/>}/>

@@ -14,7 +14,7 @@ export class HomeComponent extends Component{
 	componentDidMount() {
 		!this.protectedComponent.isProtectComponentDisplayed && this.protectedComponent.displayProtectComponent(true)
 		this.httpService.getInstance().get("/users").then(obj=>{
-			console.log("obj=",obj);
+			//console.log("obj=",obj);
 		})
 	}
 
