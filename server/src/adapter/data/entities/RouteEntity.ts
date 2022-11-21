@@ -8,4 +8,7 @@ export class RouteEntity {
 
   @Column({unique: true})
   path: string;
+
+  @Column()
+  type: number;
 }

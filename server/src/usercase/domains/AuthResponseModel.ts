@@ -8,7 +8,6 @@ export class AuthResponseModel implements AuthPresenter{
   refreshToken: string
   msg: string;
   code: number;
-  paths: string[] | null;
 
   buildLoginOrRefreshResponse(authDto: AuthDto): Promise<AuthResponseModel> {
 
@@ -20,7 +19,6 @@ export class AuthResponseModel implements AuthPresenter{
       this.code = IOCode.OK;
       this.authToken = authDto.authToken;
       this.refreshToken = authDto.refreshToken;
-      this.paths = authDto.paths;
     }
 
     return Promise.resolve(this);

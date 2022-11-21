@@ -9,5 +9,6 @@ export interface RouteService{
   delete(id: number): Promise<boolean>;
   read(id: number): Promise<RouteEntity>;
   readAll(options: IPaginationOptions): Promise<Pagination<RouteEntity>>;
-  readByIds(ids: string[]): Promise<string[]>
+  readByIds(ids: string[]): Promise<RouteEntity[]>
+  readByIdsAndType(ids: string[], type: number): Promise<string[]>
 }

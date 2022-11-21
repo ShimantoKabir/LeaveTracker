@@ -15,6 +15,7 @@ export class AuthTokenStrategy extends PassportStrategy(Strategy,"AT") {
   }
 
   async validate(request: Request,payload: StrategyPayload) {
+    console.log(request.url);
     const index = payload.paths.findIndex(path=>path === request.url);
     if (index === -1){
       throw new UnauthorizedException();

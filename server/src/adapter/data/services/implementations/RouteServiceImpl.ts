@@ -41,9 +41,23 @@ export class RouteServiceImpl implements RouteService{
     return await this.routeRepository.update(routeEntity.id, routeEntity);
   }
 
-  async readByIds(ids: string[]): Promise<string[]> {
+  async readByIds(ids: string[]): Promise<RouteEntity[]> {
     const routes = await this.routeRepository.findBy({
       id: In(ids)
+    })
+
+    return routes.map(obj => {
+      return {
+        path: obj.path,
+        type: obj.type
+      };
+    });
+  }
+
+  async readByIdsAndType(ids: string[], type: number): Promise<string[]> {
+    const routes = await this.routeRepository.findBy({
+      id: In(ids),
+      type : Equal(type)
     })
 
     return routes.map(obj => {

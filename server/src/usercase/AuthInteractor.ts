@@ -29,17 +29,17 @@ export class AuthInteractor implements AuthInteractorBoundary {
 
   async refresh(id: number, email: string): Promise<AuthResponseModel> {
     const user = await this.userService.getUserByEmail(email);
-    const paths = user.role === null ? [] : await this.routeService.readByIds(user.role.pathIds);
+    const routes = user.role === null ? [] : await this.routeService.readByIds(user.role.pathIds);
 
     const tokens = await this.getTokens({
       id: id,
       email: email,
-      paths: paths
+      routes: routes
     });
 
     const authDto = this.authDtoBuilder.withAuthToken(tokens.authToken)
       .withRefreshToken(tokens.refreshToken)
-      .withPaths(paths)
+      .withRoutes(routes)
       .build();
 
     return this.authPresenter.buildLoginOrRefreshResponse(authDto);
@@ -51,7 +51,6 @@ export class AuthInteractor implements AuthInteractorBoundary {
 
     const nullAuthDto = this.authDtoBuilder.withAuthToken(null)
       .withRefreshToken(null)
-      .withPaths(null)
       .build();
 
     if (!user){
@@ -62,12 +61,11 @@ export class AuthInteractor implements AuthInteractorBoundary {
 
     if (isMatch){
       authRequestModel.id = user.id;
-      authRequestModel.paths = user.role === null ? [] : await this.routeService.readByIds(user.role.pathIds);
+      authRequestModel.routes = user.role === null ? [] : await this.routeService.readByIds(user.role.pathIds);
       const tokens = await this.getTokens(authRequestModel);
 
       const authDto = this.authDtoBuilder.withAuthToken(tokens.authToken)
         .withRefreshToken(tokens.refreshToken)
-        .withPaths(authRequestModel.paths)
         .build();
 
       return this.authPresenter.buildLoginOrRefreshResponse(authDto);
@@ -80,7 +78,7 @@ export class AuthInteractor implements AuthInteractorBoundary {
     const jwtPayload = {
       sub: authRequestModel.id,
       email: authRequestModel.email,
-      paths: authRequestModel.paths
+      routes: authRequestModel.routes
     };
 
     const [at, rt] = await Promise.all([

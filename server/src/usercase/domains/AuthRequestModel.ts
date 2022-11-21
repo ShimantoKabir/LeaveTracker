@@ -1,4 +1,5 @@
 import {IsEmail, IsNotEmpty} from "class-validator";
+import {RouteEntity} from "../../adapter/data/entities/RouteEntity";
 
 export class AuthRequestModel{
 
@@ -14,4 +15,5 @@ export class AuthRequestModel{
   code?: number;
   msg?: string;
   paths?: string[];
+  routes?: RouteEntity[];
 }

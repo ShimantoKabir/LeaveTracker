@@ -1,6 +1,7 @@
 import {AuthDto} from "../../AuthDto";
 import {AuthDtoBuilder} from "../AuthDtoBuilder";
 import {Injectable} from "@nestjs/common";
+import {RouteEntity} from "../../../adapter/data/entities/RouteEntity";
 
 @Injectable()
 export class AuthDtoBuilderImpl implements AuthDtoBuilder{
@@ -22,8 +23,12 @@ export class AuthDtoBuilderImpl implements AuthDtoBuilder{
     return this;
   }
 
+  withRoutes(routeEntities: RouteEntity[] | null): this {
+    this.authDto.routeEntities = routeEntities;
+    return this;
+  }
+
   build(): AuthDto {
     return this.authDto;
   }
-
 }
