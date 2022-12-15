@@ -11,4 +11,9 @@ export class RouteEntity {
 
   @Column()
   type: number;
+
+  @Column({
+    nullable: true
+  })
+  label!: string;
 }

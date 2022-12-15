@@ -49,7 +49,8 @@ export class RouteServiceImpl implements RouteService{
     return routes.map(obj => {
       return {
         path: obj.path,
-        type: obj.type
+        type: obj.type,
+        label: obj.label
       };
     });
   }

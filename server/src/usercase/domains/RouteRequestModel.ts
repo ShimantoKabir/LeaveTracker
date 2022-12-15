@@ -1,4 +1,4 @@
-import {IsNotEmpty, IsNumber, IsString} from "class-validator";
+import {IsNotEmpty, IsNumber, IsString, ValidateIf} from "class-validator";
 
 export class RouteRequestModel{
   id: number;
@@ -10,6 +10,11 @@ export class RouteRequestModel{
   @IsNotEmpty()
   @IsNumber()
   type: number;
+
+  @IsNotEmpty()
+  @IsString()
+  @ValidateIf((object, value) => value)
+  label!: string;
 
   code: number;
   msg: string;

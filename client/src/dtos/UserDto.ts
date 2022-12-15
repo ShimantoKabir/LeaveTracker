@@ -1,3 +1,5 @@
+import {RouteDto} from "./RouteDto";
+
 export class UserDto{
 	email!: string;
 	password!: string;
@@ -5,4 +7,5 @@ export class UserDto{
 	refreshToken!: string;
 	code!: number;
 	msg!: string;
+	routes!: RouteDto[];
 }

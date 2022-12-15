@@ -30,36 +30,34 @@ export class HttpServiceImpl implements HttpService{
 		const authToken = cookies.get(AppConstants.authTokenCookieName);
 		const refreshToken = cookies.get(AppConstants.refreshTokenCookieName);
 
+		if (authToken){
+			this.axiosInstance.defaults.headers.common['Authorization'] = 'Bearer '+ authToken;
+			return this.axiosInstance;
+		}
+
 		this.axiosInstance.interceptors.request.use(async config => {
-
-			if (authToken){
-				config.headers = {
-					'Authorization': 'Bearer '+ authToken
-				}
-			}else {
-				console.log("hihi");
-				try {
-					const refreshRes = await axios({
-						method: 'post',
-						url: AppConstants.baseUrl+'auth/refresh',
-						headers : {
-							'Authorization': 'Bearer '+ refreshToken
-						}
-					});
-
-					const userDto = this.userDtoBuilder.withAuthToken(refreshRes.data.authToken)
-						.withRefreshToken(refreshRes.data.refreshToken)
-						.build();
-
-					AppUtils.setCookies(userDto);
-
-					config.headers = {
-						'Authorization': 'Bearer '+ refreshRes.data.authToken
+			try {
+				const refreshRes = await axios({
+					method: 'post',
+					url: AppConstants.baseUrl+'auth/refresh',
+					headers : {
+						'Authorization': 'Bearer '+ refreshToken
 					}
-				}catch (e) {
-					console.log("AuthRefreshError=",e);
+				});
+
+				const userDto = this.userDtoBuilder.withAuthToken(refreshRes.data.authToken)
+					.withRefreshToken(refreshRes.data.refreshToken)
+					.build();
+
+				AppUtils.setCookies(userDto);
+
+				config.headers = {
+					'Authorization': 'Bearer '+ refreshRes.data.authToken
 				}
+			}catch (e) {
+				console.log("AuthRefreshError=",e);
 			}
+
 			return config
 		})
 		return this.axiosInstance;
